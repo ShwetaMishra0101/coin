@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 require("dotenv").config()
-const client = new MongoClient(process.env.mongo_url)
+const client = new MongoClient(process.env.mongoose_url)
 mongoose.set("strictQuery", false);
 
 const Schema = new mongoose.Schema({
@@ -56,7 +56,7 @@ app.post("/sendData", async (req, res) => {
 
 const connect = async () => {
   try {
-    await mongoose.connect( process.env.mongo_url);
+    await mongoose.connect( process.env.mongoose_url);
     console.log("connected to mongodb");
   } catch (err) {
     throw err;
