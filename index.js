@@ -5,7 +5,8 @@ const {MongoClient} = require ("mongodb");
 const app = express();
 app.use(cors());
 app.use(express.json());
-const client = new MongoClient("mongodb+srv://Shweta:shweta123@cluster0.cui9tcw.mongodb.net/coinetab?retryWrites=true&w=majority")
+require("dotenv").config()
+const client = new MongoClient(process.env.MONGO_URL)
 mongoose.set("strictQuery", false);
 
 const Schema = new mongoose.Schema({
@@ -27,6 +28,9 @@ const Schema = new mongoose.Schema({
 });
 
 const Data = mongoose.model("Details", Schema);
+app.get("/",(req,res)=>{
+    console.log("Home page !")
+})
 
 app.get("/showDetails",async(req,res)=>{
     const data =await Data.find()
@@ -52,9 +56,7 @@ app.post("/sendData", async (req, res) => {
 
 const connect = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://Shweta:shweta123@cluster0.cui9tcw.mongodb.net/coinetab?retryWrites=true&w=majority"
-    );
+    await mongoose.connect( process.env.MONGO_URL);
     console.log("connected to mongodb");
   } catch (err) {
     throw err;
